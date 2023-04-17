@@ -1,0 +1,25 @@
+name: Tune GitHub-hosted runner network
+description: OS-neutral interface to disable TCP/UDP offload to fix flaky networking on GitHub-hosted runners
+author: Sora Morimoto
+branding:
+  icon: package
+  color: orange
+runs:
+  using: composite
+  steps:
+    - name: Tune Linux Network
+      if: ${{ runner.os == 'Linux' }}
+      shell: bash
+      run: sudo ethtool -K eth0 tx off rx off
+
+    - name: Tune Windows Network
+      if: ${{ runner.os == 'Windows' }}
+      shell: pwsh
+      run: Disable-NetAdapterChecksumOffload -Name * -TcpIPv4 -UdpIPv4 -TcpIPv6 -UdpIPv6
+
+    - name: Tune macOS Network
+      if: ${{ runner.os == 'macOS' }}
+      shell: bash
+      run: |
+        sudo sysctl -w net.link.generic.system.hwcksum_tx=0
+        sudo sysctl -w net.link.generic.system.hwcksum_rx=0
