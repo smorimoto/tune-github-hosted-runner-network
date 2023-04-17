@@ -2,8 +2,8 @@ name: Tune GitHub-hosted runner network
 description: OS-neutral interface to disable TCP/UDP offload to fix flaky networking on GitHub-hosted runners
 author: Sora Morimoto
 branding:
-  icon: package
-  color: orange
+  icon: wifi
+  color: gray-dark
 runs:
   using: composite
   steps:
