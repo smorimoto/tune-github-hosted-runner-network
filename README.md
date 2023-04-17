@@ -18,6 +18,9 @@ a JavaScript action.
 
 ### Usage
 
+We adhere to [semantic versioning](https://semver.org), it's safe to use the
+major version (`v1`) in your workflow.
+
 ```yml
 runs-on: ubuntu-latest
 
