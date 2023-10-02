@@ -30,5 +30,5 @@ steps:
     uses: smorimoto/tune-github-hosted-runner-network@v1
 
   - name: Checkout tree
-    uses: actions/checkout@v3
+    uses: actions/checkout@v4
 ```
