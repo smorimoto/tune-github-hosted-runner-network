@@ -19,10 +19,7 @@ jobs:
           - ubuntu-22.04-arm
           - ubuntu-24.04-arm
           - ubuntu-26.04-arm
-        attempt: [1, 2, 3, 4, 5]
-        include:
-          - os: ubuntu-slim
-            attempt: 1
+        attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
     runs-on: ${{ matrix.os }}
 
@@ -30,9 +27,13 @@ jobs:
       - name: Checkout tree
         uses: actions/checkout@v7
 
-      - name: Observe interfaces
+      - name: State before
         shell: bash
-        run: bash .github/diagnose.sh
+        run: bash .github/offload-state.sh BEFORE
 
-      - name: Run the action as released
+      - name: Run the candidate fix
         uses: ./
+
+      - name: State after
+        shell: bash
+        run: bash .github/offload-state.sh AFTER
