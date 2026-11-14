@@ -1,25 +1,28 @@
-name: Builds, tests & co
+name: Diagnose issue 5
 
-on:
-  pull_request:
-  push:
-  schedule:
-    # Prime the caches every Monday
-    - cron: 0 1 * * MON
+on: push
 
 permissions: read-all
 
 jobs:
-  test:
-    name: Test
+  diagnose:
+    name: ${{ matrix.os }} ${{ matrix.attempt }}
 
     strategy:
       fail-fast: false
       matrix:
         os:
-          - macos-latest
+          - ubuntu-22.04
+          - ubuntu-24.04
+          - ubuntu-26.04
           - ubuntu-latest
-          - windows-latest
+          - ubuntu-22.04-arm
+          - ubuntu-24.04-arm
+          - ubuntu-26.04-arm
+        attempt: [1, 2, 3, 4, 5]
+        include:
+          - os: ubuntu-slim
+            attempt: 1
 
     runs-on: ${{ matrix.os }}
 
@@ -27,5 +30,9 @@ jobs:
       - name: Checkout tree
         uses: actions/checkout@v7
 
-      - name: Tune GitHub-hosted runner network
+      - name: Observe interfaces
+        shell: bash
+        run: bash .github/diagnose.sh
+
+      - name: Run the action as released
         uses: ./
