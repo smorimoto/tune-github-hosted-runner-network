@@ -10,7 +10,9 @@ runs:
     - name: Tune Linux Network
       if: ${{ runner.os == 'Linux' }}
       shell: bash
-      run: sudo ethtool -K eth0 tx off rx off
+      run: |
+        interface=$(ip route show default | sed -n 's/.* dev \([^ ]*\).*/\1/p')
+        sudo ethtool -K "$interface" tx off rx off
 
     - name: Tune Windows Network
       if: ${{ runner.os == 'Windows' }}
